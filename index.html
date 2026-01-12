@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>احسب خسارتك الشهرية | Mokn</title>
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-F6011XKWWT"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-F6011XKWWT');
+    </script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: #fff;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .logo h1 {
+            font-size: 2.5rem;
+            color: #1a1a2e;
+            font-weight: 800;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        .question {
+            margin-bottom: 25px;
+        }
+
+        .question label {
+            display: block;
+            font-size: 1rem;
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .question input {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 1.2rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            outline: none;
+            transition: border-color 0.3s;
+            text-align: center;
+        }
+
+        .question input:focus {
+            border-color: #4CAF50;
+        }
+
+        .calculate-btn {
+            width: 100%;
+            padding: 18px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #fff;
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 10px;
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(76, 175, 80, 0.3);
+        }
+
+        .result {
+            display: none;
+            margin-top: 30px;
+            padding: 30px;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%);
+            border-radius: 16px;
+            text-align: center;
+            color: #fff;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result.show {
+            display: block;
+        }
+
+        .result-label {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+
+        .result-amount {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+
+        .result-period {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .result-details {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.3);
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        .solution {
+            display: none;
+            margin-top: 25px;
+            padding: 25px;
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            border-radius: 16px;
+            text-align: center;
+            color: #fff;
+            animation: fadeIn 0.5s ease 0.2s both;
+        }
+
+        .solution.show {
+            display: block;
+        }
+
+        .solution h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+
+        .solution p {
+            font-size: 1rem;
+            opacity: 0.95;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #4CAF50;
+            background: #fff;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.2s;
+        }
+
+        .cta-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .yearly {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+        }
+
+        .yearly-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .yearly-amount {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .note {
+            text-align: center;
+            margin-top: 25px;
+            color: #999;
+            font-size: 0.85rem;
+        }
+
+        .stats {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f8f8;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stats.show {
+            display: block;
+        }
+
+        .stats p {
+            color: #666;
+            font-size: 0.9rem;
+            margin: 5px 0;
+        }
+
+        .stats strong {
+            color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <h1>Mokn</h1>
+        </div>
+        <p class="subtitle">كم تخسر عيادتك شهرياً بسبب المكالمات الضايعة؟</p>
+
+        <div class="question">
+            <label>📞 كم مكالمة تجيكم باليوم تقريباً؟</label>
+            <input type="number" id="calls" placeholder="مثال: 40" min="1">
+        </div>
+
+        <div class="question">
+            <label>💰 كم متوسط سعر الموعد؟ (ريال)</label>
+            <input type="number" id="price" placeholder="مثال: 150" min="1">
+        </div>
+
+        <button class="calculate-btn" onclick="calculate()">احسب خسارتي 📊</button>
+
+        <div class="stats" id="stats">
+            <p>📉 المكالمات الضايعة يومياً: <strong id="dailyLost">0</strong></p>
+            <p>📅 المكالمات الضايعة شهرياً: <strong id="monthlyLost">0</strong></p>
+        </div>
+
+        <div class="result" id="result">
+            <div class="result-label">أنت تخسر تقريباً</div>
+            <div class="result-amount" id="monthlyLoss">0</div>
+            <div class="result-period">ريال شهرياً</div>
+            
+            <div class="yearly">
+                <div class="yearly-label">يعني سنوياً</div>
+                <div class="yearly-amount" id="yearlyLoss">0 ريال</div>
+            </div>
+        </div>
+
+        <div class="solution" id="solution">
+            <h3>✅ نظام Mokn يحل المشكلة</h3>
+            <p>شات بوت ذكي يرد على مرضاك 24/7<br>يحجز لهم تلقائياً حتى لو الخط مشغول أو خارج الدوام</p>
+            <a href="https://wa.me/966540839964?text=مرحباً، حاب أعرف أكثر عن نظام Mokn" class="cta-btn" onclick="trackWhatsApp()">تواصل معنا 💬</a>
+        </div>
+
+        <p class="note">* الحساب مبني على أن 25% من المكالمات تضيع بسبب انشغال الخط أو الاتصال خارج الدوام</p>
+    </div>
+
+    <script>
+        function calculate() {
+            const calls = parseInt(document.getElementById('calls').value) || 0;
+            const price = parseInt(document.getElementById('price').value) || 0;
+
+            if (calls <= 0 || price <= 0) {
+                alert('الرجاء إدخال أرقام صحيحة');
+                return;
+            }
+
+            // Track calculate button click
+            gtag('event', 'calculate_clicked', {
+                'calls': calls,
+                'price': price
+            });
+
+            // 25% of calls are lost
+            const lostPercentage = 0.25;
+            const dailyLost = Math.round(calls * lostPercentage);
+            const monthlyLost = dailyLost * 30;
+            
+            const dailyLoss = dailyLost * price;
+            const monthlyLoss = dailyLoss * 30;
+            const yearlyLoss = monthlyLoss * 12;
+
+            // Track result
+            gtag('event', 'result_shown', {
+                'monthly_loss': monthlyLoss,
+                'yearly_loss': yearlyLoss
+            });
+
+            // Update stats
+            document.getElementById('dailyLost').textContent = dailyLost;
+            document.getElementById('monthlyLost').textContent = monthlyLost.toLocaleString('ar-SA');
+
+            // Update results
+            document.getElementById('monthlyLoss').textContent = monthlyLoss.toLocaleString('ar-SA');
+            document.getElementById('yearlyLoss').textContent = yearlyLoss.toLocaleString('ar-SA') + ' ريال';
+
+            // Show results
+            document.getElementById('stats').classList.add('show');
+            document.getElementById('result').classList.add('show');
+            document.getElementById('solution').classList.add('show');
+
+            // Scroll to results
+            document.getElementById('stats').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // Track WhatsApp click
+        function trackWhatsApp() {
+            gtag('event', 'whatsapp_clicked', {
+                'source': 'roi_calculator'
+            });
+        }
+
+        // Calculate on Enter key
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    calculate();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
